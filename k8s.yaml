@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egadottestapp
+  labels:
+    app: egadottestapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: egadottestapp
+  template:
+    metadata:
+      labels:
+        app: egadottestapp
+    spec:
+      containers:
+      - name: egadottestapp
+        image: acrname.azurecr.io/egadottestapp:latest
+        ports:
+        - containerPort: 80
+ 
+---
+apiVersion: v1
+kind: Service
+metadata:  
+  name: egadottestapp
+  labels:
+    app: egadottestapp
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  type: LoadBalancer
+  selector:
+    app: egadottestapp
